@@ -1,4 +1,4 @@
-# @foliant/plugin-elizaos
+# elizaos-plugin-foliant
 
 Pay x402 endpoints from an [ElizaOS](https://github.com/elizaOS/eliza) agent through a **Foliant** account: a spending policy the agent cannot bypass, and one on-chain settlement per session instead of one per call.
 
@@ -17,13 +17,13 @@ A refusal by the policy is not an error: the action returns `success: false` wit
 ## Install
 
 ```bash
-npm install @foliant/plugin-elizaos
+npm install elizaos-plugin-foliant
 ```
 
 Character file:
 
 ```json
-{ "plugins": ["@foliant/plugin-elizaos"] }
+{ "plugins": ["elizaos-plugin-foliant"] }
 ```
 
 The plugin auto-enables when `FOLIANT_NODE_URL` and `FOLIANT_SIGNER_KEY` are set.
@@ -71,7 +71,7 @@ Tests: `npm test` (spawns the devnet from `../concord` or `$FOLIANT_REF`).
 ## Links
 
 - Protocol, whitepaper and reference ledger: https://github.com/gazoy/concord
-- TypeScript client this plugin is built on: `@foliant/client`
+- TypeScript client this plugin is built on: `foliant-client`
 - LangChain integration: `langchain-foliant` on PyPI
 
 Apache-2.0.

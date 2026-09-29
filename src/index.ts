@@ -1,4 +1,4 @@
-/** @foliant/plugin-elizaos — pay x402 endpoints from a Foliant account with a budget the agent cannot bypass. */
+/** elizaos-plugin-foliant — pay x402 endpoints from a Foliant account with a budget the agent cannot bypass. */
 import type { Plugin } from "@elizaos/core";
 import { payX402Action } from "./actions/payX402.js";
 import { foliantBudgetProvider } from "./providers/budget.js";

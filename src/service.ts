@@ -1,6 +1,6 @@
 /** FoliantService: holds the agent's Foliant account and the paying client for the runtime's lifetime. */
 import { type IAgentRuntime, Service } from "@elizaos/core";
-import { Agent, KeyPair, LedgerNode, PayingClient, Policy, PolicyViolation, type Receipt } from "@foliant/client";
+import { Agent, KeyPair, LedgerNode, PayingClient, Policy, PolicyViolation, type Receipt } from "foliant-client";
 
 export interface BudgetView {
   perWindowMax: number;

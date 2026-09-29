@@ -2,7 +2,7 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { IAgentRuntime, Memory, State } from "@elizaos/core";
-import { KeyPair } from "@foliant/client";
+import { KeyPair } from "foliant-client";
 import foliantPlugin, { FoliantService, foliantBudgetProvider, payX402Action } from "../src/index.js";
 
 const PORT = 8413;
@@ -41,7 +41,7 @@ beforeAll(async () => {
 
 afterAll(() => server.kill());
 
-describe("@foliant/plugin-elizaos", () => {
+describe("elizaos-plugin-foliant", () => {
   it("declares a service, an action and a provider, auto-enabled by its two required settings", () => {
     expect(foliantPlugin.services?.[0]).toBe(FoliantService);
     expect(foliantPlugin.actions?.[0].name).toBe("PAY_X402");

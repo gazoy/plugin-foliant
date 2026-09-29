@@ -88,7 +88,7 @@
     "@elizaos/core": "^2.0.3-beta.7"
   },
   "dependencies": {
-    "@foliant/client": "file:../foliant-js"
+    "@foliant/client": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.3",

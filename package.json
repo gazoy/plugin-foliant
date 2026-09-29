@@ -1,0 +1,98 @@
+{
+  "name": "@foliant/plugin-elizaos",
+  "version": "0.1.0",
+  "description": "ElizaOS plugin: pay x402 endpoints from a Foliant account with a budget the agent cannot bypass; one on-chain settlement per session",
+  "main": "dist/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.json"
+  },
+  "keywords": [
+    "plugin",
+    "elizaos",
+    "x402",
+    "foliant"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "packageType": "plugin",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gazoy/plugin-foliant"
+  },
+  "agentConfig": {
+    "pluginType": "elizaos:plugin:1.0.0",
+    "pluginParameters": {
+      "FOLIANT_NODE_URL": {
+        "type": "string",
+        "required": true,
+        "description": "URL of the Foliant ledger node (devnet: http://127.0.0.1:8402)"
+      },
+      "FOLIANT_SIGNER_KEY": {
+        "type": "string",
+        "required": true,
+        "sensitive": true,
+        "description": "Hex Ed25519 private key that operates the agent's Foliant account"
+      },
+      "FOLIANT_ACCOUNT_ID": {
+        "type": "string",
+        "description": "Existing account id operated by FOLIANT_SIGNER_KEY (for example one delegated by an orchestrator); omit to register a new devnet account with FOLIANT_OWNER_KEY"
+      },
+      "FOLIANT_OWNER_KEY": {
+        "type": "string",
+        "sensitive": true,
+        "description": "Hex Ed25519 private key of the account owner; used only to register a new account when FOLIANT_ACCOUNT_ID is not set"
+      },
+      "FOLIANT_ASSET": {
+        "type": "string",
+        "description": "Asset to pay in (default USDC)"
+      },
+      "FOLIANT_DEFAULT_DEPOSIT": {
+        "type": "string",
+        "description": "Deposit per channel open or pool join, in smallest units (default 100)"
+      },
+      "FOLIANT_PER_TX_MAX": {
+        "type": "string",
+        "description": "New-account policy: per-transaction cap (default 500)"
+      },
+      "FOLIANT_PER_WINDOW_MAX": {
+        "type": "string",
+        "description": "New-account policy: cap per window (default 200)"
+      },
+      "FOLIANT_WINDOW_SECS": {
+        "type": "string",
+        "description": "New-account policy: window length in seconds (default 3600)"
+      },
+      "FOLIANT_AUTOPAY": {
+        "type": "string",
+        "description": "'true' to pay 402s without asking (default true on devnet)"
+      }
+    }
+  },
+  "peerDependencies": {
+    "@elizaos/core": "^2.0.3-beta.7"
+  },
+  "dependencies": {
+    "@foliant/client": "file:../foliant-js"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.2"
+  }
+}

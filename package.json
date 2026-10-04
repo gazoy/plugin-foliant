@@ -17,7 +17,7 @@
     "x402",
     "foliant"
   ],
-  "author": "",
+  "author": "Gareth Oyston <gaz@garethoyston.com>",
   "license": "Apache-2.0",
   "type": "module",
   "types": "dist/index.d.ts",

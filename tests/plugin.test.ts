@@ -1,5 +1,8 @@
 /** The plugin against a real Python ledger node: service start, action pays, provider reports, policy refuses. */
 import { spawn, type ChildProcess } from "node:child_process";
+import { existsSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { IAgentRuntime, Memory, State } from "@elizaos/core";
 import { KeyPair } from "foliant-client";
@@ -8,6 +11,13 @@ import foliantPlugin, { FoliantService, foliantBudgetProvider, payX402Action } f
 const PORT = 8413;
 const BASE = `http://127.0.0.1:${PORT}`;
 let server: ChildProcess;
+
+/**
+ * The Foliant reference implementation, whose `demo/serve.py` is the ledger node these tests run
+ * against. Default to a sibling checkout of this repository, which is how both a developer clone
+ * and CI lay it out; FOLIANT_REF overrides it for anywhere else.
+ */
+const REF = process.env.FOLIANT_REF ?? resolve(dirname(fileURLToPath(import.meta.url)), "../../concord");
 
 function mockRuntime(settings: Record<string, string>): IAgentRuntime & { services: Map<string, unknown> } {
   const services = new Map<string, unknown>();
@@ -29,7 +39,17 @@ const msg = (text: string): Memory => ({ content: { text } } as unknown as Memor
 const state = {} as State;
 
 beforeAll(async () => {
-  server = spawn("python3", ["demo/serve.py", String(PORT)], { cwd: process.env.FOLIANT_REF ?? "/home/claude/concord", stdio: "ignore" });
+  if (!existsSync(resolve(REF, "demo/serve.py"))) {
+    throw new Error(
+      `The Foliant reference implementation is not at ${REF}. These tests run the plugin against its ` +
+        `demo/serve.py ledger node. Clone https://github.com/gazoy/concord beside this repository, or ` +
+        `set FOLIANT_REF to where it already is.`,
+    );
+  }
+  server = spawn("python3", ["demo/serve.py", String(PORT)], { cwd: REF, stdio: "ignore" });
+  server.on("error", (e) => {
+    throw new Error(`Could not start the ledger node from ${REF}: ${e.message}. Python 3.11 or newer must be on PATH.`);
+  });
   for (let i = 0; i < 100; i++) {
     try {
       if ((await fetch(`${BASE}/ledger/now`)).ok) return;

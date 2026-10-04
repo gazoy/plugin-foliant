@@ -1,6 +1,6 @@
 {
   "name": "elizaos-plugin-foliant",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "ElizaOS plugin: pay x402 endpoints from a Foliant account with a budget the agent cannot bypass; one on-chain settlement per session",
   "main": "dist/index.js",
   "directories": {
@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "vitest run",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [
     "plugin",

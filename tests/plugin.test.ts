@@ -55,7 +55,7 @@ describe("elizaos-plugin-foliant", () => {
       FOLIANT_NODE_URL: BASE, FOLIANT_SIGNER_KEY: signer.privateHex, FOLIANT_OWNER_KEY: owner.privateHex,
       FOLIANT_PER_WINDOW_MAX: "200", FOLIANT_DEFAULT_DEPOSIT: "100",
     });
-    await svc.agent.node.faucet(svc.agent.address, "USDC", 5_000);
+    await svc.agent.node.faucet(svc.agent.address, "USDC", 5_000n);
     expect(await payX402Action.validate(rt, msg("x"), state)).toBe(true);
 
     const said: string[] = [];
@@ -68,8 +68,8 @@ describe("elizaos-plugin-foliant", () => {
 
     const p = await foliantBudgetProvider.get(rt, msg(""), state);
     expect(p.text).toContain("Foliant budget:");
-    expect(p.values?.foliantSpentInWindow).toBe(100); // one pool deposit is the committed value
-    expect(p.values?.foliantHeadroom).toBe(100 + 100 - 3); // policy headroom + unspent in the pool claim
+    expect(p.values?.foliantSpentInWindow).toBe("100"); // one pool deposit is the committed value
+    expect(p.values?.foliantHeadroom).toBe("197"); // 100 policy headroom + 97 unspent in the pool claim
   });
 
   it("falls back to a URL in the message text, and refuses cleanly when the policy is exhausted", async () => {
@@ -78,7 +78,7 @@ describe("elizaos-plugin-foliant", () => {
       FOLIANT_NODE_URL: BASE, FOLIANT_SIGNER_KEY: signer.privateHex, FOLIANT_OWNER_KEY: owner.privateHex,
       FOLIANT_PER_WINDOW_MAX: "100", FOLIANT_DEFAULT_DEPOSIT: "100",
     });
-    await svc.agent.node.faucet(svc.agent.address, "USDC", 5_000);
+    await svc.agent.node.faucet(svc.agent.address, "USDC", 5_000n);
     // 100-unit pool claim at 3 per call: 33 calls fit; the 34th needs a new deposit the policy will not allow
     let last: Awaited<ReturnType<typeof payX402Action.handler>> | undefined;
     for (let i = 0; i < 34; i++) {
